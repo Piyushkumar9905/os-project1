@@ -1,0 +1,147 @@
+#include<bits/stdc++.h>
+using namespace std;
+void bestfit(int blockSize[], int m, int processSize[], int n) 
+{ 
+    int allocation[n]; 
+    memset(allocation, -1, sizeof(allocation));
+    for (int i=0; i<n; i++) 
+    { 
+        int bestIdx = -1; 
+        for (int j=0; j<m; j++) 
+        { 
+            if (blockSize[j] >= processSize[i]) 
+            { 
+                if (bestIdx == -1) 
+                    bestIdx = j; 
+                else if (blockSize[bestIdx] > blockSize[j]) 
+                    bestIdx = j; 
+            } 
+        } 
+  
+        if (bestIdx != -1) 
+        { 
+            allocation[i] = bestIdx; 
+  
+            blockSize[bestIdx] -= processSize[i]; 
+        } 
+    } 
+  
+    cout << "\nProcess No.\tProcess Size\tBlock no.\n"; 
+    for (int i = 0; i < n; i++) 
+    { 
+        cout << "   " << i+1 << "\t\t" << processSize[i] << "\t\t"; 
+        if (allocation[i] != -1) 
+            cout << allocation[i] + 1; 
+        else
+            cout << "Not Allocated"; 
+        cout << endl; 
+    } 
+} 
+void firstfit(int blockSize[], int m,  
+              int processSize[], int n) 
+{ 
+    int allocation[n]; 
+  
+    memset(allocation, -1, sizeof(allocation)); 
+    for (int i = 0; i < n; i++) 
+    { 
+        for (int j = 0; j < m; j++) 
+        { 
+            if (blockSize[j] >= processSize[i]) 
+            { 
+                allocation[i] = j; 
+                blockSize[j] -= processSize[i]; 
+  
+                break; 
+            } 
+        } 
+    } 
+  
+    cout << "\nProcess No.\tProcess Size\tBlock no.\n"; 
+    for (int i = 0; i < n; i++) 
+    { 
+        cout << " " << i+1 << "\t\t" 
+             << processSize[i] << "\t\t"; 
+        if (allocation[i] != -1) 
+            cout << allocation[i] + 1; 
+        else
+            cout << "Not Allocated"; 
+        cout << endl; 
+    } 
+} 
+void worstfit(int blockSize[], int m, int processSize[],  
+                                                 int n) 
+{ 
+    int allocation[n]; 
+  
+    memset(allocation, -1, sizeof(allocation)); 
+    for (int i=0; i<n; i++) 
+    { 
+        int wstIdx = -1; 
+        for (int j=0; j<m; j++) 
+        { 
+            if (blockSize[j] >= processSize[i]) 
+            { 
+                if (wstIdx == -1) 
+                    wstIdx = j; 
+                else if (blockSize[wstIdx] < blockSize[j]) 
+                    wstIdx = j; 
+            } 
+        } 
+
+        if (wstIdx != -1) 
+        { 
+            allocation[i] = wstIdx; 
+            blockSize[wstIdx] -= processSize[i]; 
+        } 
+    } 
+  
+    cout << "\nProcess No.\tProcess Size\tBlock no.\n"; 
+    for (int i = 0; i < n; i++) 
+    { 
+        cout << "   " << i+1 << "\t\t" << processSize[i] << "\t\t"; 
+        if (allocation[i] != -1) 
+            cout << allocation[i] + 1; 
+        else
+            cout << "Not Allocated"; 
+        cout << endl; 
+    } 
+} 
+  
+int main()
+{
+	int i,j,n,m,p;
+	cout<<"Enter Total no of Block=";
+	cin>>n;
+	int a[n];
+	cout<<"Enter "<<n<<" Size of Each block"<<endl;;
+	for(i=0;i<n;i++)
+	cin>>a[i];
+	cout<<"Enter Total no of Procesor";
+	cin>>m;
+	 int b[m];
+	cout<<"Enter "<<m<<" Size of Each Processor"<<endl;
+	for(i=0;i<m;i++)
+	cin>>b[i];
+	cout<<"1 for best fit "<<endl<<"2 for Worse fit "<<endl<<"3 for First fit"<<endl<<"Enter 1st choice"<<endl;
+	cin>>p;
+	switch(p)
+	{
+		case 1:
+			bestfit(a,n,b,m);
+			break;
+			
+				
+		case 2:
+			
+			worstfit(a,n,b,m);
+			
+			break;
+			case 3:
+				firstfit(a,n,b,m);
+				break;
+				
+				default :
+					cout<<"wrong";
+		
+	}}
